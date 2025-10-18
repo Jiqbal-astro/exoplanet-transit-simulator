@@ -4,7 +4,7 @@ A free, open-source web application that simulates exoplanet transits, models li
 
 ## Live Demo
 After you publish with GitHub Pages, your app will be at:
-`https://Jiqbal1921/exoplanet-transit-simulator`
+`https://jiqbal1921.github.io/exoplanet-transit-simulator`
 
 ## Features
 - Real exoplanet presets (sample of 5 included; add more in `exoplanet_database.json`).
