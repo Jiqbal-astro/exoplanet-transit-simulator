@@ -16,7 +16,7 @@ After you publish with GitHub Pages, your app will be at:
 
 ## Quick Start
 ```bash
-git clone https://github.com/YOUR-USERNAME/exoplanet-transit-simulator.git
+git clone https://github.com/Jiqbal1921/exoplanet-transit-simulator.git
 cd exoplanet-transit-simulator
 open index.html  # or just double-click index.html
 ```
@@ -27,7 +27,7 @@ git init
 git add .
 git commit -m "Initial commit: Exoplanet Transit Simulator (fixed)"
 git branch -M main
-git remote add origin https://github.com/YOUR-USERNAME/exoplanet-transit-simulator.git
+git remote add origin https://github.com/Jiqbal1921/exoplanet-transit-simulator.git
 git push -u origin main
 ```
 Then enable **Settings → Pages → Build from main**.
