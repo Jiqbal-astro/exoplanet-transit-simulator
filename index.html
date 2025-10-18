@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exoplanet Transit Simulator</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1/dist/chartjs-plugin-zoom.umd.min.js"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1> Exoplanet Transit Simulator</h1>
+      <p>Model exoplanet transits, analyze light curves, and assess habitable zones</p>
+    </header>
+
+    <!-- Real Exoplanet Database Section -->
+    <section class="database-section">
+      <h2>Real Exoplanet Database</h2>
+      <div class="database-controls">
+        <select id="exoplanetSelector" onchange="loadExoplanetData()">
+          <option value="">Select a real exoplanet...</option>
+          <option value="custom">Custom Parameters</option>
+        </select>
+        <button onclick="loadExoplanetDatabase()" class="btn-secondary">Load Database</button>
+      </div>
+    </section>
+
+    <!-- System Configuration -->
+    <section class="system-config">
+      <h2>Planetary System Configuration</h2>
+      <div class="config-controls">
+        <label>Number of Planets: 
+          <select id="planetCount" onchange="updatePlanetInputs()">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+          </select>
+        </label>
+      </div>
+    </section>
+
+    <!-- Parameter Controls -->
+    <section class="controls">
+      <div class="parameter-group">
+        <h3> Star Properties</h3>
+        <div class="input-grid">
+          <label>Star Mass (M): <input type="number" id="starMass" value="1.0" step="0.1" min="0.08" max="100"></label>
+          <label>Star Radius (R): <input type="number" id="starRadius" value="1.0" step="0.1" min="0.1" max="100"></label>
+          <label>Star Temperature (K): <input type="number" id="starTemp" value="5778" step="100" min="1000" max="50000"></label>
+          <label style="grid-column: 1 / -1;"><input type="checkbox" id="ldToggle" checked> Include limb darkening (quadratic)</label>
+          <label>Bond Albedo (A): <input type="number" id="albedo" value="0.30" step="0.01" min="0" max="0.95"></label>
+          <label>u1: <input type="number" id="ldU1" value="0.3" step="0.05" min="0" max="1"></label>
+          <label>u2: <input type="number" id="ldU2" value="0.2" step="0.05" min="0" max="1"></label>
+        </div>
+      </div>
+      
+      <!-- Dynamic Planet Inputs -->
+      <div id="planetInputsContainer"></div>
+      
+      <button onclick="simulateTransit()" class="btn-primary">Run Simulation</button>
+    </section>
+
+    <!-- Visualizations -->
+    <section class="visualizations">
+      <div class="viz-container">
+        <div class="viz-panel">
+          <h3>System View</h3>
+          <div id="systemView"></div>
+        </div>
+        <div class="viz-panel">
+          <h3>Light Curve</h3>
+          <div class="chart-container">
+            <canvas id="lightCurveChart"></canvas>
+            <div style="margin-top:8px;text-align:right;">
+              <button class="btn-secondary" onclick="resetZoom()">Reset Zoom</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Analysis Results -->
+    <section class="results">
+      <div class="result-panel">
+        <h3> Habitable Zone Analysis</h3>
+        <div id="habitableZoneResult" class="result-content">
+          <p>Run simulation to see analysis...</p>
+        </div>
+      </div>
+      <div class="result-panel">
+        <h3> Transit Properties</h3>
+        <div id="transitDetails" class="result-content">
+          <p>Run simulation to see transit details...</p>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <p>Built with JavaScript • Hosted on GitHub Pages • Free and Open Source</p>
+    </footer>
+  </div>
+
+  <script src="simulator.js"></script>
+</body>
+</html>

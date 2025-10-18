@@ -1,0 +1,72 @@
+[
+    {
+        "name": "TRAPPIST-1e",
+        "discovery_year": 2017,
+        "star_mass": 0.089,
+        "star_radius": 0.119,
+        "star_temp": 2550,
+        "planet_radius": 0.92,
+        "orbital_period": 6.1,
+        "semi_major_axis": 0.029,
+        "eccentricity": 0.005,
+        "inclination": 89.86,
+        "mass": 0.692,
+        "description": "Potentially habitable Earth-sized exoplanet in TRAPPIST-1 system"
+    },
+    {
+        "name": "Kepler-186f",
+        "discovery_year": 2014,
+        "star_mass": 0.54,
+        "star_radius": 0.52,
+        "star_temp": 3755,
+        "planet_radius": 1.11,
+        "orbital_period": 129.9,
+        "semi_major_axis": 0.432,
+        "eccentricity": 0.04,
+        "inclination": 89.9,
+        "mass": null,
+        "description": "First Earth-sized planet discovered in habitable zone"
+    },
+    {
+        "name": "Proxima Centauri b",
+        "discovery_year": 2016,
+        "star_mass": 0.12,
+        "star_radius": 0.14,
+        "star_temp": 3042,
+        "planet_radius": 1.07,
+        "orbital_period": 11.186,
+        "semi_major_axis": 0.0485,
+        "eccentricity": 0.109,
+        "inclination": 89.5,
+        "mass": 1.07,
+        "description": "Closest known exoplanet to Earth, orbits Proxima Centauri"
+    },
+    {
+        "name": "HD 209458 b",
+        "discovery_year": 1999,
+        "star_mass": 1.148,
+        "star_radius": 1.203,
+        "star_temp": 6065,
+        "planet_radius": 1.38,
+        "orbital_period": 3.5247,
+        "semi_major_axis": 0.04707,
+        "eccentricity": 0.007,
+        "inclination": 86.71,
+        "mass": 0.73,
+        "description": "First exoplanet discovered by transit method, known as 'Osiris'"
+    },
+    {
+        "name": "Kepler-22b",
+        "discovery_year": 2011,
+        "star_mass": 0.97,
+        "star_radius": 0.98,
+        "star_temp": 5518,
+        "planet_radius": 2.38,
+        "orbital_period": 289.9,
+        "semi_major_axis": 0.849,
+        "eccentricity": 0.0,
+        "inclination": 89.7,
+        "mass": null,
+        "description": "First Kepler planet found in the habitable zone"
+    }
+]
