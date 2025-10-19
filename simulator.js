@@ -20,13 +20,9 @@ function initializeChart() {
         label: 'Relative Flux',
         borderColor: '#4CAF50',
         backgroundColor: 'rgba(76, 175, 80, 0.1)',
-        
+        borderWidth: 2,
         fill: true,
-        borderWidth: 3,
-        pointRadius: 0,
-        pointHitRadius: 6,
-        tension: 0.25,
-        spanGaps: true
+        tension: 0.4
       }]
     },
     options: {
@@ -605,30 +601,14 @@ function initP5SystemView(planets, observationTimeDays) {
 
 // Visualization Updates
 function updateLightCurveChart(lightCurveData) {
-  
   const labels = lightCurveData.map(d => d.time.toFixed(1));
   const data = lightCurveData.map(d => d.flux);
   const minFlux = Math.min(...data);
-  const depthRaw = 1 - minFlux;
-  const depth = Math.max(1e-5, depthRaw);
-  const padBelow = depth * 3;
-  const padAbove = depth * 0.8;
-  const yMin = Math.max(0, 1 - depth - padBelow);
-  const yMax = 1 + padAbove;
-
+  
   lightCurveChart.data.labels = labels;
   lightCurveChart.data.datasets[0].data = data;
-
-  // Tight y-axis bounds to reveal transit
-  lightCurveChart.options.scales = lightCurveChart.options.scales || {};
-  lightCurveChart.options.scales.y = lightCurveChart.options.scales.y || {};
-  lightCurveChart.options.scales.y.min = yMin;
-  lightCurveChart.options.scales.y.max = yMax;
-
-  // Subtle grid & title
-  lightCurveChart.options.scales.y.grid = Object.assign({}, lightCurveChart.options.scales.y.grid, { borderDash: [3,4], drawBorder: false });
-  lightCurveChart.options.scales.y.title = { display: true, text: 'Relative Flux' };
-
+  lightCurveChart.options.scales.y.suggestedMin = Math.min(0.98, minFlux - 0.0005);
+  lightCurveChart.options.scales.y.suggestedMax = 1.0015;
   lightCurveChart.update();
 }
 
