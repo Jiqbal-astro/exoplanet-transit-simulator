@@ -3,7 +3,6 @@
 A free, open-source web application that simulates exoplanet transits, models light curves, and analyzes habitable zones. Perfect for education, research, and astronomy enthusiasts!
 
 ## Live Demo
-After you publish with GitHub Pages, your app will be at:
 `https://jiqbal1921.github.io/exoplanet-transit-simulator`
 
 ## Features
