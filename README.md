@@ -3,7 +3,7 @@
 A free, open-source web application that simulates exoplanet transits, models light curves, and analyzes habitable zones. Perfect for education, research, and astronomy enthusiasts!
 
 ## Live Demo
-`https://jiqbal1921.github.io/exoplanet-transit-simulator`
+`https://jiqbal-astro.github.io/exoplanet-transit-simulator`
 
 ## Features
 - Real exoplanet presets (sample of 5 included; add more in `exoplanet_database.json`).
@@ -15,7 +15,7 @@ A free, open-source web application that simulates exoplanet transits, models li
 
 ## Quick Start
 ```bash
-git clone https://github.com/Jiqbal1921/exoplanet-transit-simulator.git
+git clone https://github.com/Jiqbal-astro/exoplanet-transit-simulator.git
 cd exoplanet-transit-simulator
 open index.html  # or just double-click index.html
 ```
@@ -26,7 +26,7 @@ git init
 git add .
 git commit -m "Initial commit: Exoplanet Transit Simulator (fixed)"
 git branch -M main
-git remote add origin https://github.com/Jiqbal1921/exoplanet-transit-simulator.git
+git remote add origin https://github.com/Jiqbal-astro/exoplanet-transit-simulator.git
 git push -u origin main
 ```
 Then enable **Settings → Pages → Build from main**.
