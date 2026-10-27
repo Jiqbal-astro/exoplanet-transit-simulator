@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Exoplanet Transit Simulator</title>
+  <meta name="description" content="Interactive simulator of exoplanet transits: light curves, limb darkening, eccentric orbits, habitable zones and detectability.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🪐</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/plotly.js-dist-min@2.27.0/plotly.min.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <h1>Exoplanet Transit Simulator</h1>
+      <p>See how a planet’s size, orbit and star shape the dip in starlight we detect.</p>
+    </div>
+    <div class="topbar-actions">
+      <label class="preset">
+        <span>System</span>
+        <select id="preset" aria-label="Choose a planetary system"></select>
+      </label>
+      <button id="customBtn" type="button" class="primary-btn">Custom target</button>
+      <button id="themeToggle" class="icon-btn" type="button" aria-label="Switch to dark theme" title="Switch theme">☾</button>
+    </div>
+  </header>
+
+  <div class="layout">
+    <aside class="controls" aria-label="Simulation controls">
+      <section class="ctl-section">
+        <h2>Star</h2>
+        <div id="starControls"></div>
+        <p class="readout" id="starReadout"></p>
+      </section>
+
+      <section class="ctl-section">
+        <div class="section-head">
+          <h2>Planets</h2>
+          <div class="planet-actions">
+            <button id="addPlanet" type="button" class="text-btn">Add planet</button>
+            <button id="removePlanet" type="button" class="text-btn danger">Remove</button>
+          </div>
+        </div>
+        <div id="planetTabs" class="planet-tabs" role="tablist" aria-label="Planets"></div>
+        <div id="planetControls"></div>
+      </section>
+
+      <section class="ctl-section">
+        <h2>Limb darkening</h2>
+        <label class="switch"><input type="checkbox" id="ldEnabled" checked> <span>Quadratic limb darkening</span></label>
+        <div id="ldControls"></div>
+      </section>
+
+      <section class="ctl-section">
+        <h2>Observation</h2>
+        <div id="obsControls"></div>
+        <label class="switch"><input type="checkbox" id="noiseEnabled"> <span>Add photometric noise</span></label>
+        <div id="noiseControls"></div>
+      </section>
+    </aside>
+
+    <main class="main">
+      <p id="presetNote" class="preset-note"></p>
+
+      <section class="hero" aria-label="System views">
+        <figure class="view sky">
+          <figcaption>
+            <strong>Observer’s view</strong>
+            <span id="skyCaption">The star as seen from Earth</span>
+          </figcaption>
+          <canvas id="skyCanvas" aria-label="The star with planets crossing in front of it"></canvas>
+        </figure>
+        <figure class="view orbit">
+          <figcaption>
+            <strong>From above</strong>
+            <span>Orbits and habitable zone</span>
+          </figcaption>
+          <canvas id="orbitCanvas" aria-label="Top-down view of the orbits and the habitable zone"></canvas>
+        </figure>
+      </section>
+
+      <section class="transport" aria-label="Time controls">
+        <button id="playBtn" type="button" class="play" aria-label="Play">▶</button>
+        <input id="timeSlider" type="range" min="0" max="10" step="0.001" value="0" aria-label="Time">
+        <output id="timeReadout" class="time-readout"></output>
+      </section>
+
+      <section class="panel" aria-label="Light curve">
+        <div class="panel-head">
+          <h2>Light curve</h2>
+          <div class="panel-tools">
+            <label class="mini">Units
+              <select id="unitSelect">
+                <option value="auto">Auto</option><option value="ppm">ppm</option>
+                <option value="pct">%</option><option value="flux">Relative flux</option>
+              </select>
+            </label>
+            <label class="mini">Scale
+              <select id="scaleSelect">
+                <option value="transits">Fit transit depth</option><option value="data">Fit all data</option>
+              </select>
+            </label>
+            <button id="downloadCsv" type="button" class="text-btn">Download CSV</button>
+          </div>
+        </div>
+        <div id="lcPlot" class="plot"></div>
+        <p class="hint">Dashed lines mark each planet’s transit depth. Drag to zoom, double-click to reset, click to jump in time.</p>
+      </section>
+
+      <section class="panel" aria-label="Individual transits">
+        <div class="panel-head"><h2>Transit close-ups</h2><span class="hint">Model in colour, simulated data in grey</span></div>
+        <div id="zoomGrid" class="zoom-grid"></div>
+      </section>
+
+      <section class="panel" aria-label="Results">
+        <div class="panel-head"><h2>Results</h2></div>
+        <div class="table-wrap"><table id="resultsTable"></table></div>
+        <p class="footnote">Equilibrium temperature assumes full heat redistribution. Habitable-zone limits follow Kopparapu et al. (2014). Transit geometry follows Winn (2010); limb darkening uses the small-planet approximation of Mandel &amp; Agol (2002).</p>
+      </section>
+
+      <footer class="footer">
+        <span>Exoplanet Transit Simulator by <a href="https://github.com/Jiqbal-astro">Javed Iqbal</a></span>
+        <a href="https://github.com/Jiqbal-astro/exoplanet-transit-simulator">Source on GitHub</a>
+      </footer>
+    </main>
+  </div>
+
+
+  <dialog id="customDialog" aria-labelledby="customTitle">
+    <form id="customForm" novalidate>
+      <div class="dlg-head">
+        <h2 id="customTitle">Custom target</h2>
+        <p>Enter your own star and planets. Fields start from the system on screen.</p>
+      </div>
+      <div class="dlg-body">
+        <fieldset>
+          <legend>Target</legend>
+          <label class="field wide">Name <input name="name" type="text" maxlength="40" required></label>
+        </fieldset>
+        <fieldset>
+          <legend>Star</legend>
+          <label class="field">Temperature (K) <input name="teff" type="number" step="any" min="1000" max="50000" required></label>
+          <label class="field">Radius (R☉) <input name="srad" type="number" step="any" min="0.01" max="100" required></label>
+          <label class="field">Mass (M☉) <input name="smass" type="number" step="any" min="0.01" max="100" required></label>
+          <label class="field">Limb darkening u₁ <input name="u1" type="number" step="any" min="-1" max="2" required></label>
+          <label class="field">Limb darkening u₂ <input name="u2" type="number" step="any" min="-1" max="2" required></label>
+        </fieldset>
+        <div id="customPlanets"></div>
+        <button type="button" id="customAddPlanet" class="text-btn">Add another planet</button>
+        <p id="customError" class="form-error" role="alert"></p>
+      </div>
+      <div class="dlg-foot">
+        <button type="button" id="customCancel" class="text-btn">Cancel</button>
+        <button type="submit" class="primary-btn">Model this target</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="js/physics.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
